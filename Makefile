@@ -1,6 +1,10 @@
 NAME		=	so_long
 
-SRCS		=	main.c
+SRCS		=	main.c\
+				gnl/get_next_line.c\
+				gnl/get_next_line_utils.c\
+				parser/load_map.c\
+				parser/parser.c
 
 RED			=	"\033[1;31m"
 BLUE		=	"\033[1;34m"
@@ -12,7 +16,7 @@ GRAY		=	"\033[1;30m"
 END			=	"\033[0m"
 
 OBJS		=	$(SRCS:%.c=%.o)
-
+DFILES		=	$(wildcard $(SRCS:%.c=%.d))
 INCLUDE		=	-I./ -I./mlx/
 
 CC			=	gcc
@@ -26,13 +30,15 @@ LIB = mlx/libmlx.a #libft/libft.a
 all:		libs $(NAME)
 
 %.o:		%.c
-			$(CC) $(CFLAGS) $(INCLUDE) -c -g $< -o $@
+			$(CC) $(CFLAGS) $(INCLUDE) -MMD -c -g $< -o $@
 
 $(NAME):	$(OBJS)
 			$(CC) $(INCLUDE) $(LIB) -o $(NAME) $(OBJS) -framework OpenGL -framework AppKit 
-# Для связи с требуемым внутренним API macOS:
+# Для связи с требуемым внутренним API macOS
 #@echo ${PURPLE}"< Compiled pipex >\n"${END}
 #@echo ${PURPLE}"< Done >\n"${END}
+
+include $(DFILES)
 
 libs:
 			make -C mlx
@@ -40,7 +46,7 @@ libs:
 
 clean:
 			@make -C $(dir $(LIB)) clean
-			@$(RM) $(OBJS)
+			@$(RM) $(OBJS) $(DFILES)
 			@echo ${YELLOW}"\n< Cleaning succeed >\n"${END}
 
 fclean:		clean
