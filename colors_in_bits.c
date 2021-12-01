@@ -1,13 +1,17 @@
 #include <stdio.h>
 #include <unistd.h>
 
+/*
+** Эта мини программа наглядно показывает побитовое изменение цвета
+*/
+
 #define MAX_TYPE_SIZE sizeof(size_t)
 #define SIZE_BITE 8
 
 typedef	u_int64_t type_var;
 typedef u_int8_t type_size;
 
-#define FPS	180
+#define FPS	60
 
 #define	GetR(color) (((color) & 0xFF0000) >> 16)
 #define	GetG(color) (((color) & 0x00FF00) >> 8)
