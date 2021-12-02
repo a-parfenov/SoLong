@@ -6,7 +6,7 @@
 /*   By: aleslie <aleslie@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 18:06:58 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/01 04:27:45 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/02 02:52:30 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,43 @@ typedef struct s_color
 	int train[4];
 }				t_color;
 
+typedef struct s_xpm
+{
+	char	*wall;
+	char	*floor;
+	char	*pers;
+	char	*ex;
+	char	*obj;
+}				t_xpm;
+
 typedef struct	s_img 
 {
-	void	*img;
+	void	*pers;
 	char	*addr;
 	int		bits_per_pixel; // кол-во бит на пиксель
 	int		line_length;
 	int		height;
+	int		width;
 	int		endian;
+	// char	*wall;
+	// char	floor;
+	t_xpm	xpm;
+	void	*i_wall;
+	void	*i_floor;
+	void	*i_pers;
+	void	*i_ex;
+	void	*i_obj;
 }				t_img;
 
 typedef struct s_pers
 {
 	int			x; // + вправо
 	int			y; // + вниз
+	int			pers_x;
+	int			pers_y;
 	int			speed;
+	int			x_ps;
+	int			y_ps;
 	t_img		texture;
 }				t_pers;
 
@@ -91,6 +113,8 @@ typedef struct s_list
 	t_pers			pers;
 	t_color			color;
 	t_map			map;
+	int				x;
+	int				y;
 }					t_all;
 
 char	*get_next_line(int fd);
@@ -103,6 +127,7 @@ size_t	ft_strlen_s(char *str);
 
 void parser(t_all *all, char const **argv);
 
-
+void create_obj(t_all *all);
+void create_map(t_all *all);
 
 #endif

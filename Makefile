@@ -4,7 +4,7 @@ SRCS		=	main.c\
 				gnl/get_next_line.c\
 				gnl/get_next_line_utils.c\
 				parser/load_map.c\
-				parser/parser.c
+				parser/create_map.c
 
 RED			=	"\033[1;31m"
 BLUE		=	"\033[1;34m"
@@ -20,7 +20,7 @@ DFILES		=	$(wildcard $(SRCS:%.c=%.d))
 INCLUDE		=	-I./ -I./mlx/
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g
 RM			=	rm -f
 
 LIB = mlx/libmlx.a #libft/libft.a
@@ -30,7 +30,7 @@ LIB = mlx/libmlx.a #libft/libft.a
 all:		libs $(NAME)
 
 %.o:		%.c
-			$(CC) $(CFLAGS) $(INCLUDE) -MMD -c -g $< -o $@
+			$(CC) $(CFLAGS) $(INCLUDE) -MMD -c $< -o $@
 
 $(NAME):	$(OBJS)
 			$(CC) $(INCLUDE) $(LIB) -o $(NAME) $(OBJS) -framework OpenGL -framework AppKit 
