@@ -3,8 +3,9 @@ NAME		=	so_long
 SRCS		=	main.c\
 				gnl/get_next_line.c\
 				gnl/get_next_line_utils.c\
-				parser/load_map.c\
-				parser/create_map.c
+				parser.c\
+				map.c\
+				utils.c
 
 RED			=	"\033[1;31m"
 BLUE		=	"\033[1;34m"
@@ -17,7 +18,7 @@ END			=	"\033[0m"
 
 OBJS		=	$(SRCS:%.c=%.o)
 DFILES		=	$(wildcard $(SRCS:%.c=%.d))
-INCLUDE		=	-I./ -I./mlx/
+INCLUDE		=	-I./mlx/
 
 CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror -g
@@ -41,18 +42,18 @@ $(NAME):	$(OBJS)
 include $(DFILES)
 
 libs:
-			make -C mlx
-# make -C libft
+		make -C mlx
+#make -C libft
 
 clean:
-			@make -C $(dir $(LIB)) clean
-			@$(RM) $(OBJS) $(DFILES)
-			@echo ${YELLOW}"\n< Cleaning succeed >\n"${END}
+		@make -C $(dir $(LIB)) clean
+		@$(RM) $(OBJS) $(DFILES)
+		@echo ${YELLOW}"\n< Cleaning succeed >\n"${END}
 
-fclean:		clean
-			make -C $(dir $(LIB)) fclean
-			@$(RM) $(NAME)
-			@echo ${YELLOW}"< All created files were deleted >\n"${END}
+fclean:	clean
+		make -C $(dir $(LIB)) fclean
+		@$(RM) $(NAME)
+		@echo ${YELLOW}"< All created files were deleted >\n"${END}
 
-re:			fclean all
-			@echo ${YELLOW}"< Remake done >\n"${END}
+re:		fclean all
+		@echo ${YELLOW}"< Remake done >\n"${END}

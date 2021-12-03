@@ -6,7 +6,7 @@
 /*   By: aleslie <aleslie@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 05:32:20 by aleslie           #+#    #+#             */
-/*   Updated: 2021/11/15 12:09:20 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/03 04:21:31 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ char	*get_next_line(int fd)
 {
 	static char	*buff[256];
 	char		*line;
+	char		*p_n;
 	int			check;
 
 	line = NULL;
@@ -98,5 +99,8 @@ char	*get_next_line(int fd)
 	line = logic(&buff[fd], line, fd);
 	if (!line)
 		return (NULL);
+	p_n = ft_strchr(line, '\n');
+	if (p_n)
+		*(p_n) = '\0';
 	return (line);
 }
