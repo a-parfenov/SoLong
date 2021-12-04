@@ -3,53 +3,84 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleslie <aleslie@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 19:20:17 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/02 23:20:52 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/04 04:53:13 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	check_error(unsigned int check_error)
+void	check_error(unsigned int check_error, char *error_number, t_map *map)
 {
+	int	i;
+
+	i = -1;
 	if (check_error)
 	{
-		perror("Error");
+		while (map->arr_map[++i])
+			free(map->arr_map[i]);
+		free(map->arr_map);
+		perror(error_number);
 		exit(EXIT_FAILURE);
 	}
 }
 
-size_t	ft_strlen_s(char *str)
+void	check_error_argv(unsigned int check_error, char *error_number)
 {
-	size_t	res;
-
-	res = 0;
-	while (str[res])
-		res++;
-	return (res);
-}
-
-int end_game(void)
-{
-	exit(0);
-	return 0;
-}
-
-char	*ft_calloc(size_t count, size_t size)
-{
-	char	*mem;
-	size_t	i;
-
-	mem = malloc(count * size);
-	if (!mem)
-		return (0);
-	i = 0;
-	while (i < count * size)
+	if (check_error)
 	{
-		mem[i] = '\0';
-		i++;
+		perror(error_number);
+		exit(EXIT_FAILURE);
 	}
-	return (mem);
+}
+
+int	end_game(t_all *all)
+{
+	int	i;
+
+	i = -1;
+	while (all->map.arr_map[++i])
+		free(all->map.arr_map[i]);
+	free(all->map.arr_map);
+	exit(0);
+}
+
+int	check_args(char **argv)
+{
+	int	i;
+
+	i = 0;
+	if (argv[1][i] == '.' && argv[1][i + 1] == '/')
+		while (argv[1][i] && argv[1][i] != '.')
+			i++;
+	while (argv[1][i] && argv[1][i] != '.')
+		i++;
+	if (argv[1][i] == '.' && argv[1][i + 1] == 'b' && \
+	argv[1][i + 2] == 'e' && argv[1][i + 3] == 'r')
+		return (0);
+	return (1);
+}
+
+void	x_y_pers(t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	j = -1;
+	while (map->arr_map[++j])
+	{
+		i = -1;
+		while (map->arr_map[j][++i])
+		{
+			if (map->arr_map[j][i] == 'P')
+			{
+				map->pers_y = j;
+				map->pers_x = i;
+				return ;
+			}
+		}
+	}
 }

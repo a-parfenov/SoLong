@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleslie <aleslie@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 20:32:08 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/03 05:40:51 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/04 05:12:58 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,149 +14,102 @@
 
 void	create_obj(t_all *all)
 {
-	all->img.i_pers_r = mlx_xpm_file_to_image(all->mlx, 
-		PERS_R, &all->img.width_img, &all->img.height_img);
-	check_error(!((unsigned) all->img.i_pers_r));
-	all->img.i_exit = mlx_xpm_file_to_image(all->mlx, 
-		EXIT, &all->img.width_img, &all->img.height_img);
-	check_error(!((unsigned) all->img.i_exit));
-	all->img.i_fon = mlx_xpm_file_to_image(all->mlx, 
-		FON, &all->img.width_img, &all->img.height_img);
-	check_error(!((unsigned) all->img.i_fon));
-	all->img.i_wall = mlx_xpm_file_to_image(all->mlx, 
-		WALL, &all->img.width_img, &all->img.height_img);
-	check_error(!((unsigned) all->img.i_wall));
-	all->img.i_obj = mlx_xpm_file_to_image(all->mlx, 
-		OBJ, &all->img.width_img, &all->img.height_img);
-	check_error(!((unsigned) all->img.i_obj));
+	all->img.i_pers_r = mlx_xpm_file_to_image(all->mlx,
+			PERS_R, &all->img.width_img, &all->img.height_img);
+	check_error(!((unsigned) all->img.i_pers_r), ERROR_2, &all->map);
+	all->img.i_exit = mlx_xpm_file_to_image(all->mlx,
+			EXIT, &all->img.width_img, &all->img.height_img);
+	check_error(!((unsigned) all->img.i_exit), ERROR_2, &all->map);
+	all->img.i_fon = mlx_xpm_file_to_image(all->mlx,
+			FON, &all->img.width_img, &all->img.height_img);
+	check_error(!((unsigned) all->img.i_fon), ERROR_2, &all->map);
+	all->img.i_wall = mlx_xpm_file_to_image(all->mlx,
+			WALL, &all->img.width_img, &all->img.height_img);
+	check_error(!((unsigned) all->img.i_wall), ERROR_2, &all->map);
+	all->img.i_obj = mlx_xpm_file_to_image(all->mlx,
+			OBJ, &all->img.width_img, &all->img.height_img);
+	check_error(!((unsigned) all->img.i_obj), ERROR_2, &all->map);
 }
 
-void create_map(t_all *all)
+void	replacement(t_all *all, int flag)
 {
-	int		i;
-	int		j;
-
-	j = -1;
-	while (all->map.arr_map[++j])
-	{
-		i = -1;
-		while (all->map.arr_map[j][++i])
-		{
-			if (all->map.arr_map[j][i] == '1')
-				mlx_put_image_to_window(all->mlx, all->win, 
-					all->img.i_fon, all->map.x, all->map.y);
-			else if (all->map.arr_map[j][i] == '0')
-				mlx_put_image_to_window(all->mlx, all->win, 
-					all->img.i_wall, all->map.x, all->map.y);
-			else if (all->map.arr_map[j][i] == 'P')
-				mlx_put_image_to_window(all->mlx, all->win, 
-					all->img.i_pers_r, all->map.x, all->map.y);
-			else if (all->map.arr_map[j][i] == 'E')
-				mlx_put_image_to_window(all->mlx, all->win, 
-					all->img.i_exit, all->map.x, all->map.y);
-			else if (all->map.arr_map[j][i] == 'C')
-				mlx_put_image_to_window(all->mlx, all->win,
-					all->img.i_obj, all->map.x, all->map.y);
-			all->map.x += 64;
-		}
-		all->map.y += 64;
-		all->map.x = 0;
-	}
+	all->map.arr_map[all->map.pers_y][all->map.pers_x] = '0';
+	mlx_put_image_to_window(all->mlx, all->win,
+		all->img.i_wall, all->map.pers_x * SIZE_X, all->map.pers_y * SIZE_Y);
+	if (flag == 1)
+		all->map.pers_y -= 1;
+	else if (flag == 2)
+		all->map.pers_y += 1;
+	else if (flag == 3)
+		all->map.pers_x -= 1;
+	else if (flag == 4)
+		all->map.pers_x += 1;
+	all->map.arr_map[all->map.pers_y][all->map.pers_x] = 'P';
+	mlx_put_image_to_window(all->mlx, all->win,
+		all->img.i_pers_r, all->map.pers_x * SIZE_X, all->map.pers_y * SIZE_Y);
+	all->count_steps++;
+	printf("Steps: %d\n", all->count_steps);
 }
 
-void replacement(t_all *all, int flag)
+void	check_step_1(t_all *all, int y, int flag)
 {
-		all->map.arr_map[all->map.pers_y][all->map.pers_x] = 0;
-		mlx_put_image_to_window(all->mlx, all->win,
-			all->img.i_wall, all->map.pers_x * SIZE_X, all->map.pers_y * SIZE_Y);
-		if (flag == 1)
-			all->map.pers_y -= 1;
-		else if (flag == 2)
-			all->map.pers_y += 1;
-		else if (flag == 3)
-			all->map.pers_x -= 1;
-		else if (flag == 4)
-			all->map.pers_x += 1;
-//				all->map.pers_x -= i; - <- 1
-//				all->map.pers_y -= j; + <- -1;
-//				
-		all->map.arr_map[all->map.pers_y][all->map.pers_x] = 'P';
-		mlx_put_image_to_window(all->mlx, all->win,
-			all->img.i_pers_r, all->map.pers_x * SIZE_X, all->map.pers_y * SIZE_Y);
+	if (all->map.arr_map[all->map.pers_y - y][all->map.pers_x] == 'C')
+	{
+		all->map.c_count++;
+		replacement(all, flag);
+	}
+	else if (all->map.arr_map[all->map.pers_y - y][all->map.pers_x] == 'E')
+	{
+		if (all->map.c_count == all->map.c)
+		{
+			replacement(all, flag);
+			usleep(100000);
+			end_game(all);
+		}
+		else
+			return ;
+	}
+	else
+		replacement(all, flag);
 }
 
-int key_ivent(int key, t_all *all)
+void	check_step_2(t_all *all, int x, int flag)
 {
-	printf("%d\n", key);
-	// if (key == S_UP)
-	// 	all->pers.speed += 64;
-	// else if (key == S_DOWN)
-	// 	all->pers.speed -= 64;
-	if (key == UP && all->map.arr_map[all->map.pers_y - 1][all->map.pers_x] != '1')
+	if (all->map.arr_map[all->map.pers_y][all->map.pers_x - x] == 'C')
 	{
-		if (all->map.arr_map[all->map.pers_y - 1][all->map.pers_x] == 'C')
-			all->map.c_count++;
-		else if (all->map.arr_map[all->map.pers_y - 1][all->map.pers_x] == 'E')
-		{
-			if (all->map.c_count == all->map.c)
-				{
-					replacement(all, 1);
-					exit(0);
-				}
-			else
-				return (0);
-		}
-		replacement(all, 1);
+		all->map.c_count++;
+		replacement(all, flag);
 	}
-	else if (key == DOWN && all->map.arr_map[all->map.pers_y + 1][all->map.pers_x] != '1')
+	else if (all->map.arr_map[all->map.pers_y][all->map.pers_x - x] == 'E')
 	{
-		if (all->map.arr_map[all->map.pers_y + 1][all->map.pers_x] == 'C')
-			all->map.c_count++;
-		else if (all->map.arr_map[all->map.pers_y + 1][all->map.pers_x] == 'E')
+		if (all->map.c_count == all->map.c)
 		{
-			if (all->map.c_count == all->map.c)
-				{
-					replacement(all, 2);
-					exit(0);
-				}
-			else
-				return (0);
+			replacement(all, flag);
+			usleep(100000);
+			end_game(all);
 		}
-		replacement(all, 2);
+		else
+			return ;
 	}
-	else if (key == LEFT && all->map.arr_map[all->map.pers_y][all->map.pers_x - 1] != '1')
-	{
-		if (all->map.arr_map[all->map.pers_y][all->map.pers_x - 1] == 'C')
-			all->map.c_count++;
-		else if (all->map.arr_map[all->map.pers_y][all->map.pers_x - 1] == 'E')
-		{
-			if (all->map.c_count == all->map.c)
-				{
-					replacement(all, 3);
-					exit(0);
-				}
-			else
-				return (0);
-		}
-		replacement(all, 3);
-	}
-	else if (key == RIGHT && all->map.arr_map[all->map.pers_y][all->map.pers_x + 1] != '1')
-	{
-		if (all->map.arr_map[all->map.pers_y][all->map.pers_x + 1] == 'C')
-			all->map.c_count++;
-		else if (all->map.arr_map[all->map.pers_y][all->map.pers_x + 1] == 'E')
-		{
-			if (all->map.c_count == all->map.c)
-				{
-					replacement(all, 4);
-					exit(0);
-				}
-			else
-				return (0);
-		}
-		replacement(all, 4);
-	}
+	else
+		replacement(all, flag);
+}
+
+int	key_ivent(int key, t_all *all)
+{
+	if (key == UP
+		&& all->map.arr_map[all->map.pers_y - 1][all->map.pers_x] != '1')
+		check_step_1(all, 1, 1);
+	else if (key == DOWN
+		&& all->map.arr_map[all->map.pers_y + 1][all->map.pers_x] != '1')
+		check_step_1(all, -1, 2);
+	else if (key == LEFT
+		&& all->map.arr_map[all->map.pers_y][all->map.pers_x - 1] != '1')
+		check_step_2(all, 1, 3);
+	else if (key == RIGHT
+		&& all->map.arr_map[all->map.pers_y][all->map.pers_x + 1] != '1')
+		check_step_2(all, -1, 4);
 	else if (key == ESC)
-		exit(0); // лики
-	return 0;
+		end_game(all);
+	return (0);
 }

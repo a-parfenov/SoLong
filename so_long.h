@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleslie <aleslie@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 18:06:58 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/03 05:00:12 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/04 05:16:59 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,47 @@
 # define SO_LONG_H
 
 # include "mlx/mlx.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <errno.h>
 
+/*
+ *	Images:
+ */
 # define PERS_R		"images/personage_right.xpm"
 # define EXIT		"images/exit.xpm"
 # define FON		"images/fon.xpm"
 # define WALL		"images/wall.xpm"
 # define OBJ		"images/obj.xpm"
 
-// # define WIDTH 200
-// # define HEIGHT 100
-
-# define RED	"\033[1;31m"
-# define YELLOW	"\033[1;33m"
-# define END	"\033[0m"
+# define RED		"\033[1;31m"
+# define YELLOW		"\033[1;33m"
+# define WHITE		"\033[1;37m"
+# define END		"\033[0m"
 
 /*
-** KEY CODES
-*/
+ *	Errors:
+ */
+# define ERROR_0	"\033[1;33mERROR_0: Запуск: './so_long maps/map.ber'\033[0m"
+# define ERROR_1	"\033[1;33mERROR_1: Карта должна быть формата '.ber'\033[0m"
+# define ERROR_2	"\033[1;33mERROR_2: Текстура не создана\033[0m"
+# define ERROR_3	"\033[1;33mERROR_3: fd map\033[0m"
+# define ERROR_4	"\033[1;33mERROR_4: malloc\033[0m"
+# define ERROR_5	"\033[1;33mERROR_5: malloc in get_next_line\033[0m"
+# define ERROR_6	"\033[1;33mERROR_6: open map\033[0m"
+# define ERROR_7	"\033[1;33mERROR_7: malloc in get_next_line\033[0m"
+# define ERROR_8	"\033[1;33mERROR_8: Недопустимые символы в карте\033[0m"
+# define ERROR_9	"\033[1;33mERROR_9: Расхождение в ширине карты\033[0m"
+# define ERROR_10	"\033[1;33mERROR_10: Несоответствующая карта\033[0m"
+# define ERROR_11	"\033[1;33mERROR_11: Поправьте границы карты\033[0m"
 
+# define MAP_ALPHA	"01PEC"
+
+/*
+ *	Key:
+ */
 # define ESC 53
 # define UP 13
 # define DOWN 1
@@ -45,29 +63,23 @@
 
 # define SIZE_X 64
 # define SIZE_Y 64
-// # define S_UP 24
-// # define S_DOWN 27
-
-// # define FPS	100
-
-# define MAP_ALPHABET "0123456789PEC"
 
 typedef struct s_map
 {
+	char	**arr_map;
 	int		x;
 	int		y;
 	int		pers_x;
 	int		pers_y;
 	int		width_map;
 	int		height_map;
-	char	**arr_map;
 	int		p;
 	int		e;
 	int		c;
 	int		c_count;
 }			t_map;
 
-typedef struct s_img 
+typedef struct s_img
 {
 	void	*i_wall;
 	void	*i_fon;
@@ -77,33 +89,36 @@ typedef struct s_img
 
 	int		height_img;
 	int		width_img;
-}			t_img ;
+}			t_img;
 
 /*
-** Основная структура
-*/
-
+ * Basic struct
+ */
 typedef struct s_all
 {
 	void	*mlx;
 	void	*win;
+	int		i;
+	int		j;
+	int		count_steps;
 	t_map	map;
 	t_img	img;
 }			t_all;
 
 char	*get_next_line(int fd);
 
-void check_map(t_map *map, char const *file);
-void saving_the_map(t_map *map, char const *file);
-
-void	check_error(unsigned int check_error);
-size_t	ft_strlen_s(char *str);
-int end_game(void);
-char	*ft_calloc(size_t count, size_t size);
+void	check_map(t_map *map, char *file);
+void	saving_the_map(t_map *map, char *file);
 
 void	create_obj(t_all *all);
-void create_map(t_all *all);
+void	create_map(t_all *all);
+int		key_ivent(int key, t_all *all);
 
-int key_ivent(int key, t_all *all);
+void	check_error(unsigned int check_error, char *error_number, t_map *map);
+size_t	ft_strlen_s(char *str);
+int		end_game(t_all *all);
+void	x_y_pers(t_map *map);
+int		check_args(char **argv);
+void	check_error_argv(unsigned int check_error, char *error_number);
 
 #endif

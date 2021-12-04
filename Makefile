@@ -5,7 +5,8 @@ SRCS		=	main.c\
 				gnl/get_next_line_utils.c\
 				parser.c\
 				map.c\
-				utils.c
+				utils.c\
+				utils2.c
 
 RED			=	"\033[1;31m"
 BLUE		=	"\033[1;34m"
@@ -24,9 +25,9 @@ CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror -g
 RM			=	rm -f
 
-LIB = mlx/libmlx.a #libft/libft.a
+MLX = mlx/libmlx.a
 
-.PHONY:		all clean fclean re
+.PHONY:		all clean fclean re libs
 
 all:		libs $(NAME)
 
@@ -34,24 +35,20 @@ all:		libs $(NAME)
 			$(CC) $(CFLAGS) $(INCLUDE) -MMD -c $< -o $@
 
 $(NAME):	$(OBJS)
-			$(CC) $(INCLUDE) $(LIB) -o $(NAME) $(OBJS) -framework OpenGL -framework AppKit 
-# Для связи с требуемым внутренним API macOS
-#@echo ${PURPLE}"< Compiled pipex >\n"${END}
-#@echo ${PURPLE}"< Done >\n"${END}
+			$(CC) $(INCLUDE) $(MLX) -o $(NAME) $(OBJS) -framework OpenGL -framework AppKit 
 
 include $(DFILES)
 
 libs:
 		make -C mlx
-#make -C libft
 
 clean:
-		@make -C $(dir $(LIB)) clean
+		@make -C $(dir $(MLX)) clean
 		@$(RM) $(OBJS) $(DFILES)
 		@echo ${YELLOW}"\n< Cleaning succeed >\n"${END}
 
 fclean:	clean
-		make -C $(dir $(LIB)) fclean
+		make -C $(dir $(MLX)) fclean
 		@$(RM) $(NAME)
 		@echo ${YELLOW}"< All created files were deleted >\n"${END}
 

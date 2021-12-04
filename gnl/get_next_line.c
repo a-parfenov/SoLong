@@ -6,7 +6,7 @@
 /*   By: aleslie <aleslie@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 05:32:20 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/03 04:21:31 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/03 18:13:23 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ char	*get_next_line(int fd)
 		return (NULL);
 	p_n = ft_strchr(line, '\n');
 	if (p_n)
-		*(p_n) = '\0';
+		*(p_n) = 0;
 	return (line);
 }
