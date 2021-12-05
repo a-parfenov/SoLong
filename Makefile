@@ -12,7 +12,9 @@ B_SRCS_NAME	=	./srcs_bonus/parser.c \
 		 		./srcs_bonus/main.c \
 				./srcs_bonus/map.c \
  				./srcs_bonus/utils.c\
- 				./srcs_bonus/utils2.c
+ 				./srcs_bonus/utils2.c\
+				./srcs_bonus/itoa.c\
+				./srcs_bonus/draw.c
 
 GNL_SRCS	=	./gnl/get_next_line.c\
 				./gnl/get_next_line_utils.c

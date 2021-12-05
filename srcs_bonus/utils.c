@@ -6,7 +6,7 @@
 /*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 19:20:17 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/05 11:38:41 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/05 22:24:22 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	end_game(t_all *all)
 	exit(0);
 }
 
-int	check_args(char **argv)
+int	check_argv(char **argv)
 {
 	int	i;
 
@@ -57,8 +57,8 @@ int	check_args(char **argv)
 			i++;
 	while (argv[1][i] && argv[1][i] != '.')
 		i++;
-	if (argv[1][i] == '.' && argv[1][i + 1] == 'b' && \
-	argv[1][i + 2] == 'e' && argv[1][i + 3] == 'r')
+	if (argv[1][i] == '.' && argv[1][i + 1] == 'b' && 
+		argv[1][i + 2] == 'e' && argv[1][i + 3] == 'r')
 		return (0);
 	return (1);
 }
@@ -84,7 +84,9 @@ void	x_y_pers(t_all *all)
 			}
 			if (all->map.arr_map[j][i] == 'E')
 				all->map.arr_map[j][i] = '0';
-			if (all->map.arr_map[j][i] == ENEM_3)
+				// Сохранение x y от врагов
+			if (all->map.arr_map[j][i] == ENEM_3
+				|| all->map.arr_map[j][i] == ENEM_4)
 			{
 				all->enem_y = j;
 				all->enem_x = i;

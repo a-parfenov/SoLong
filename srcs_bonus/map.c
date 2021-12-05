@@ -6,7 +6,7 @@
 /*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 20:32:08 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/05 13:54:29 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/05 22:08:52 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,18 @@ void	check_step_1(t_all *all, int y, int flag)
 	else if (all->map.arr_map[all->map.pers_y - y][all->map.pers_x] == 'E')
 	{
 		replacement(all, flag);
-		usleep(1000000);
 	}
 	else if (all->map.arr_map[all->map.pers_y - y][all->map.pers_x] == '3')
 	{
 		replacement(all, flag);
 		printf("\n\t --- Game over ---\n");
-		// end_game(all);
+		end_game(all);
 	}
 	else if (all->map.arr_map[all->map.pers_y - y][all->map.pers_x] == '4')
 	{
 		replacement(all, flag);
 		printf("\n\t --- Game over ---\n");
-		// end_game(all);
+		end_game(all);
 	}
 	else
 		replacement(all, flag);
@@ -98,19 +97,18 @@ void	check_step_2(t_all *all, int x, int flag)
 	{
 		replacement(all, flag);
 		printf("\n\t --- Win ---\n");
-		// end_game(all);
 	}
 	else if (all->map.arr_map[all->map.pers_y][all->map.pers_x - x] == '3')
 	{
 		replacement(all, flag);
 		printf("\n\t --- Game over ---\n");
-		// end_game(all);
+		end_game(all);
 	}
 	else if (all->map.arr_map[all->map.pers_y][all->map.pers_x - x] == '4')
 	{
 		replacement(all, flag);
 		printf("\n\t --- Game over ---\n");
-		// end_game(all);
+		end_game(all);
 	}
 	else
 		replacement(all, flag);
