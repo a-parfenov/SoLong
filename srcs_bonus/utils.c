@@ -6,11 +6,11 @@
 /*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 19:20:17 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/04 04:53:13 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/05 11:38:41 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../so_long.h"
 
 void	check_error(unsigned int check_error, char *error_number, t_map *map)
 {
@@ -63,23 +63,31 @@ int	check_args(char **argv)
 	return (1);
 }
 
-void	x_y_pers(t_map *map)
+void	x_y_pers(t_all *all)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = -1;
 	j = -1;
-	while (map->arr_map[++j])
+	while (all->map.arr_map[++j])
 	{
 		i = -1;
-		while (map->arr_map[j][++i])
+		while (all->map.arr_map[j][++i])
 		{
-			if (map->arr_map[j][i] == 'P')
+			if (all->map.arr_map[j][i] == 'P')
 			{
-				map->pers_y = j;
-				map->pers_x = i;
-				return ;
+				all->map.pers_y = j;
+				all->map.pers_x = i;
+				all->pers_w_y = j * SIZE_X;
+				all->pers_w_x = i * SIZE_Y;
+			}
+			if (all->map.arr_map[j][i] == 'E')
+				all->map.arr_map[j][i] = '0';
+			if (all->map.arr_map[j][i] == ENEM_3)
+			{
+				all->enem_y = j;
+				all->enem_x = i;
 			}
 		}
 	}

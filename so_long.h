@@ -6,28 +6,33 @@
 /*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 18:06:58 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/04 05:16:59 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/05 11:24:26 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "mlx/mlx.h"
+# include "../mlx/mlx.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <errno.h>
+# include "gnl/get_next_line.h"
+# include <time.h>
 
 /*
  *	Images:
  */
 # define PERS_R		"images/personage_right.xpm"
+# define PERS_L		"images/personage_left.xpm"
 # define EXIT		"images/exit.xpm"
 # define FON		"images/fon.xpm"
 # define WALL		"images/wall.xpm"
 # define OBJ		"images/obj.xpm"
+# define ENEM_R		"images/enemy_right.xpm"
+# define ENEM_L		"images/enemy_left.xpm"
 
 # define RED		"\033[1;31m"
 # define YELLOW		"\033[1;33m"
@@ -47,10 +52,13 @@
 # define ERROR_7	"\033[1;33mERROR_7: malloc in get_next_line\033[0m"
 # define ERROR_8	"\033[1;33mERROR_8: Недопустимые символы в карте\033[0m"
 # define ERROR_9	"\033[1;33mERROR_9: Расхождение в ширине карты\033[0m"
-# define ERROR_10	"\033[1;33mERROR_10: Несоответствующая карта\033[0m"
+# define ERROR_10	"\033[1;33mERROR_10: Invalid card\033[0m"
 # define ERROR_11	"\033[1;33mERROR_11: Поправьте границы карты\033[0m"
 
-# define MAP_ALPHA	"01PEC"
+# define MAP_ALPHA	"01234PEC"
+
+# define ENEM_3		'3'
+# define ENEM_4		'4'
 
 /*
  *	Key:
@@ -84,11 +92,15 @@ typedef struct s_img
 	void	*i_wall;
 	void	*i_fon;
 	void	*i_pers_r;
+	void	*i_pers_l;
 	void	*i_exit;
 	void	*i_obj;
+	void	*i_enem_r;
+	void	*i_enem_l;
 
 	int		height_img;
 	int		width_img;
+	char	go_l_r;
 }			t_img;
 
 /*
@@ -96,28 +108,38 @@ typedef struct s_img
  */
 typedef struct s_all
 {
+	int		flag;
+	int		pers_w_x;
+	int		pers_w_y;
+	int		enem_x;
+	int		enem_y;
 	void	*mlx;
 	void	*win;
 	int		i;
 	int		j;
+	int		prt_x;
+	int		prt_y;
 	int		count_steps;
+	int		count_anim;
 	t_map	map;
 	t_img	img;
 }			t_all;
 
-char	*get_next_line(int fd);
+void	check_map(t_all *all, char *file);
+void	saving_the_map(t_all *all, char *file);
 
-void	check_map(t_map *map, char *file);
-void	saving_the_map(t_map *map, char *file);
+int		render_next_frame(t_all *all);
 
 void	create_obj(t_all *all);
-void	create_map(t_all *all);
 int		key_ivent(int key, t_all *all);
+
+void	create_map(t_all *all);
+void	print_map_arr(t_all *all);
 
 void	check_error(unsigned int check_error, char *error_number, t_map *map);
 size_t	ft_strlen_s(char *str);
 int		end_game(t_all *all);
-void	x_y_pers(t_map *map);
+void	x_y_pers(t_all *all);
 int		check_args(char **argv);
 void	check_error_argv(unsigned int check_error, char *error_number);
 

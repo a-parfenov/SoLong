@@ -6,11 +6,11 @@
 /*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 03:46:06 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/04 04:05:26 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/05 00:45:47 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../so_long.h"
 
 void	create_map(t_all *all)
 {
@@ -39,6 +39,20 @@ void	create_map(t_all *all)
 		all->map.y += 64;
 		all->map.x = 0;
 	}
+}
+
+void	print_map_arr(t_map *map)
+{
+	int	j;
+
+	j = -1;
+	write(1, "Map:\n", 5);
+	while (map->arr_map[++j])
+	{
+		if (map->arr_map[j] != 0)
+			printf("\t%s\n", map->arr_map[j]);
+	}
+	write(1, "\n", 1);
 }
 
 size_t	ft_strlen_s(char *str)

@@ -6,11 +6,11 @@
 /*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 18:59:43 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/04 04:31:18 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/05 11:24:36 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../so_long.h"
 
 void	map_boundaries(t_map *map)
 {
@@ -38,7 +38,7 @@ void	map_boundaries(t_map *map)
 	}
 }
 
-void	check_symbols(t_map *map, char *line)
+void	check_symbols(t_all *all, char *line)
 {
 	int		i;
 
@@ -48,11 +48,15 @@ void	check_symbols(t_map *map, char *line)
 	while (line[i])
 	{
 		if (line[i] == 'P')
-			map->p++;
+			all->map.p++;
 		else if (line[i] == 'E')
-			map->e++;
+		{
+			all->map.e++;
+			all->prt_x = i;
+			all->prt_y = all->map.height_map;
+		}
 		else if (line[i] == 'C')
-			map->c++;
+			all->map.c++;
 		++i;
 	}
 }
@@ -79,7 +83,7 @@ int	check_alpha(char *line)
 	return (0);
 }
 
-void	check_map(t_map *map, char *file)
+void	check_map(t_all *all, char *file)
 {
 	char	*line;
 	int		fd;
@@ -97,46 +101,38 @@ void	check_map(t_map *map, char *file)
 		{
 			len = ft_strlen_s(line);
 			check_error_argv(check_alpha(line), ERROR_8);
-			check_error_argv(len != map->width_map && map->width_map, ERROR_9);
-			map->height_map += *line != 0;
+			check_error_argv(len != all->map.width_map && all->map.width_map, ERROR_9);
+			all->map.height_map += *line != 0;
 		}
-		map->width_map = len;
-		check_symbols(map, line);
+		all->map.width_map = len;
+		check_symbols(all, line);
 		free(line);
 	}
 	close(fd);
-	check_error_argv(!(map->c > 0 && map->e > 0 && map->p == 1), ERROR_10);
+	check_error_argv(!(all->map.c > 0 && all->map.e > 0 && all->map.p == 1), ERROR_10);
 }
 
-void	saving_the_map(t_map *map, char *file)
+void	saving_the_map(t_all *all, char *file)
 {
 	int			fd;
 	int			j;
 	char		*buf;
 
 	fd = open(file, O_RDONLY);
-	check_error(!fd, ERROR_3, map);
+	check_error(!fd, ERROR_3, &all->map);
 	errno = 0;
-	map->arr_map = malloc(sizeof(char *) * (map->height_map + 1));
-	check_error(!map->arr_map, ERROR_4, map);
+	all->map.arr_map = malloc(sizeof(char *) * (all->map.height_map + 1));
+	check_error(!all->map.arr_map, ERROR_4, &all->map);
 	j = 0;
-	while (map->height_map > j)
+	while (all->map.height_map > j)
 	{
 		buf = get_next_line(fd);
-		check_error(errno, ERROR_5, map);
+		check_error(errno, ERROR_5, &all->map);
 		if (buf && buf[0] != 0)
-			map->arr_map[j++] = buf;
+			all->map.arr_map[j++] = buf;
 	}
 	close(fd);
-	map->arr_map[j] = NULL;
-	x_y_pers(map);
-	map_boundaries(map);
-
-	/* del */
-	j = -1;
-	while (map->arr_map[++j])
-	{
-		if (map->arr_map[j] != 0)
-			printf("%s\n", map->arr_map[j]);
-	}
+	all->map.arr_map[j] = NULL;
+	x_y_pers(all);
+	map_boundaries(&all->map);
 }

@@ -6,11 +6,11 @@
 /*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 20:32:08 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/04 05:12:58 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/04 23:43:29 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../so_long.h"
 
 void	create_obj(t_all *all)
 {
@@ -63,7 +63,6 @@ void	check_step_1(t_all *all, int y, int flag)
 		if (all->map.c_count == all->map.c)
 		{
 			replacement(all, flag);
-			usleep(100000);
 			end_game(all);
 		}
 		else
@@ -85,7 +84,6 @@ void	check_step_2(t_all *all, int x, int flag)
 		if (all->map.c_count == all->map.c)
 		{
 			replacement(all, flag);
-			usleep(100000);
 			end_game(all);
 		}
 		else
