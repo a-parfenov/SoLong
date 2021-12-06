@@ -1,6 +1,8 @@
 NAME		=	so_long
 NAME_BONUS	=	so_long_bonus
 
+HEADER		=	so_long.h
+
 SRCS_NAME	=	./srcs/parser.c \
 		 		./srcs/main.c \
 				./srcs/map.c \
@@ -36,7 +38,7 @@ DFILES		=	$(wildcard $(SRCS_NAME:%.c=%.d))
 INCLUDE		=	-I./mlx/
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g
+CFLAGS		=	-Wall -Wextra -Werror -g -I$(HEADER)
 RM			=	rm -f
 
 MLX = mlx/libmlx.a
@@ -47,10 +49,11 @@ all:		libs $(NAME)
 
 
 $(NAME):	$(GNL_OBJS) $(OBJS_NAME)
-			$(CC) $(INCLUDE) $(MLX) $(GNL_OBJS) $(OBJS_NAME) -o $(NAME)  -framework OpenGL -framework AppKit 
+			@$(CC) $(INCLUDE) $(MLX) $(GNL_OBJS) $(OBJS_NAME) -o $(NAME) -framework OpenGL -framework AppKit
+#@say -v Yuri  ""
 
-$(OBJS_NAME): $(SRCS_NAME) 
-			$(CC) $(CFLAGS) $(INCLUDE) -MMD -c $(SRCS_NAME)
+$(OBJS_NAME): $(SRCS_NAME)
+			@$(CC) $(CFLAGS) $(INCLUDE) -MMD -c $(SRCS_NAME)
 			@mv *.o ./srcs
 			@mv *.d ./srcs
 
@@ -58,22 +61,23 @@ $(OBJS_NAME): $(SRCS_NAME)
 
 bonus:		libs $(NAME_BONUS)
 $(NAME_BONUS): $(GNL_OBJS) $(B_OBJS_NAME)
-			$(CC) $(INCLUDE) $(MLX) $(GNL_OBJS) $(B_OBJS_NAME) -o $(NAME_BONUS)  -framework OpenGL -framework AppKit 
+			@$(CC) $(INCLUDE) $(MLX) $(GNL_OBJS) $(B_OBJS_NAME) -o $(NAME_BONUS)  -framework OpenGL -framework AppKit 
 
 $(B_OBJS_NAME): $(B_SRCS_NAME) 
-			$(CC) $(CFLAGS) $(INCLUDE) -MMD -c $(B_SRCS_NAME)
+			@$(CC) $(CFLAGS) $(INCLUDE) -MMD -c $(B_SRCS_NAME)
 			@mv *.o ./srcs_bonus
 			@mv *.d ./srcs_bonus
+			@echo ${YELLOW}"\n< Done bonus >\n"${END}
 
 $(GNL_OBJS): $(GNL_SRCS) 
-			$(CC) $(CFLAGS) $(INCLUDE) -MMD -c $(GNL_SRCS)
+			@$(CC) $(CFLAGS) $(INCLUDE) -MMD -c $(GNL_SRCS)
 			@mv *.o ./gnl
 			@mv *.d ./gnl
 
 include $(DFILES)
 
 libs:
-		make -C mlx
+		@make -C mlx
 
 clean:
 		@make -C $(dir $(MLX)) clean
@@ -81,7 +85,7 @@ clean:
 		@echo ${YELLOW}"\n< Cleaning succeed >\n"${END}
 
 fclean:	clean
-		make -C $(dir $(MLX)) fclean
+		@make -C $(dir $(MLX)) fclean
 		@$(RM) -f $(NAME)
 		@$(RM) -f $(NAME_BONUS)
 		@echo ${YELLOW}"< All created files were deleted >\n"${END}

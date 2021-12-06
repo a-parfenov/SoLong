@@ -6,11 +6,11 @@
 /*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 18:48:52 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/05 00:45:28 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/06 22:38:29 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long.h"
 
 void	init_var(t_all *all)
 {

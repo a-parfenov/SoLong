@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   itoa.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 23:06:49 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/05 17:00:22 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/06 19:17:15 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long_bonus.h"
 
 static void	ft_main(char *str, unsigned int len_num, int flag, long int n)
 {

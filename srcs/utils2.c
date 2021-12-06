@@ -6,11 +6,11 @@
 /*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 03:46:06 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/05 00:45:47 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/06 19:15:51 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long.h"
 
 void	create_map(t_all *all)
 {

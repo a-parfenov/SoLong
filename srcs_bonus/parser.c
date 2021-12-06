@@ -6,11 +6,11 @@
 /*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 18:59:43 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/05 11:24:36 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/06 19:17:30 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long_bonus.h"
 
 void	map_boundaries(t_map *map)
 {
@@ -85,31 +85,31 @@ int	check_alpha(char *line)
 
 void	check_map(t_all *all, char *file)
 {
-	char	*line;
 	int		fd;
 	int		len;
 
 	fd = open(file, O_RDONLY);
 	check_error_argv(!fd, ERROR_6);
-	line = (char *)1;
 	errno = 0;
-	while (line)
+	while (all->line)
 	{
-		line = get_next_line(fd);
+		all->line = get_next_line(fd);
 		check_error_argv(errno, ERROR_7);
-		if (line && line[0] != 0)
+		if (all->line && all->line[0] != 0)
 		{
-			len = ft_strlen_s(line);
-			check_error_argv(check_alpha(line), ERROR_8);
-			check_error_argv(len != all->map.width_map && all->map.width_map, ERROR_9);
-			all->map.height_map += *line != 0;
+			len = ft_strlen_s(all->line);
+			check_error_argv(check_alpha(all->line), ERROR_8);
+			check_error_argv(len != all->map.width_map
+				&& all->map.width_map, ERROR_9);
+			all->map.height_map += *all->line != 0;
 		}
 		all->map.width_map = len;
-		check_symbols(all, line);
-		free(line);
+		check_symbols(all, all->line);
+		free(all->line);
 	}
 	close(fd);
-	check_error_argv(!(all->map.c > 0 && all->map.e > 0 && all->map.p == 1), ERROR_10);
+	check_error_argv(!(all->map.c > 0 && all->map.e > 0
+			&& all->map.p == 1), ERROR_10);
 }
 
 void	saving_the_map(t_all *all, char *file)

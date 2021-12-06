@@ -6,11 +6,11 @@
 /*   By: aleslie <aleslie@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 19:20:17 by aleslie           #+#    #+#             */
-/*   Updated: 2021/12/04 23:43:38 by aleslie          ###   ########.fr       */
+/*   Updated: 2021/12/06 19:15:46 by aleslie          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "so_long.h"
 
 void	check_error(unsigned int check_error, char *error_number, t_map *map)
 {
